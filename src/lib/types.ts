@@ -3,7 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 export type AppUsage = {
   appName: string;
   usageTime: number; // in minutes
-  icon: LucideIcon;
+  icon: LucideIcon | string;
 };
 
 export type UsageData = {

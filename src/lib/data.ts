@@ -7,10 +7,10 @@ export const mockUsageData: UsageData = {
   unlockCount: 78,
   nightTimeUsagePeak: true,
   appUsage: [
-    { appName: 'Instagram', usageTime: 125, icon: Instagram },
-    { appName: 'YouTube', usageTime: 90, icon: Youtube },
-    { appName: 'Twitter', usageTime: 45, icon: Twitter },
-    { appName: 'Messages', usageTime: 25, icon: MessageSquare },
+    { appName: 'Instagram', usageTime: 125, icon: Instagram as any },
+    { appName: 'YouTube', usageTime: 90, icon: Youtube as any },
+    { appName: 'Twitter', usageTime: 45, icon: Twitter as any },
+    { appName: 'Messages', usageTime: 25, icon: MessageSquare as any },
   ],
 };
 

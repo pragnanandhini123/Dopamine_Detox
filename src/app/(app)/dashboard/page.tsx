@@ -4,8 +4,10 @@ import { DopamineMeter } from '@/components/dashboard/dopamine-meter';
 import { AIReflectionCard } from '@/components/dashboard/ai-reflection-card';
 import { SosModal } from '@/components/dashboard/sos-modal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock, Smartphone, TrendingUp } from 'lucide-react';
+import { Clock, MessageSquare, Smartphone, TrendingUp } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { appIcons } from '@/lib/app-icons';
+import type { LucideIcon } from 'lucide-react';
 
 const getUsageLevel = (level: number) => {
     if (level > 75) return 'Red';
@@ -30,6 +32,11 @@ export default function DashboardPage() {
   const usageData: UsageData = mockUsageData;
   const usageLevel = getUsageLevel(usageData.dopamineLevel);
 
+  const plainAppUsage = usageData.appUsage.map(item => ({
+      ...item,
+      icon: item.icon.displayName || 'default',
+  }));
+
   return (
     <>
       <div className="container py-8">
@@ -47,7 +54,7 @@ export default function DashboardPage() {
           
           <AIReflectionCard usageInput={{
             screenTime: usageData.screenTime,
-            appUsage: usageData.appUsage,
+            appUsage: plainAppUsage,
             unlockCount: usageData.unlockCount,
             nightTimeUsagePeak: usageData.nightTimeUsagePeak
           }}/>
@@ -64,18 +71,21 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <ul className="space-y-4">
-                {usageData.appUsage.map(({ appName, usageTime, icon: Icon }) => (
-                  <li key={appName} className="flex items-center">
-                    <div className="bg-secondary p-2 rounded-lg mr-4">
-                      <Icon className="w-5 h-5 text-muted-foreground" />
-                    </div>
-                    <div className="flex-grow">
-                      <p className="font-semibold">{appName}</p>
-                      <p className="text-sm text-muted-foreground">{`${Math.floor(usageTime / 60)}h ${usageTime % 60}m`}</p>
-                    </div>
-                    <Badge variant="outline">{`${Math.round((usageTime / usageData.screenTime) * 100)}%`}</Badge>
-                  </li>
-                ))}
+                {usageData.appUsage.map(({ appName, usageTime, icon: iconName }) => {
+                  const Icon = (appIcons[iconName as keyof typeof appIcons] || MessageSquare) as LucideIcon;
+                  return (
+                    <li key={appName} className="flex items-center">
+                      <div className="bg-secondary p-2 rounded-lg mr-4">
+                        <Icon className="w-5 h-5 text-muted-foreground" />
+                      </div>
+                      <div className="flex-grow">
+                        <p className="font-semibold">{appName}</p>
+                        <p className="text-sm text-muted-foreground">{`${Math.floor(usageTime / 60)}h ${usageTime % 60}m`}</p>
+                      </div>
+                      <Badge variant="outline">{`${Math.round((usageTime / usageData.screenTime) * 100)}%`}</Badge>
+                    </li>
+                  )
+                })}
               </ul>
             </CardContent>
           </Card>

@@ -19,6 +19,7 @@ const AIReflectionOnUsageInputSchema = z.object({
     z.object({
       appName: z.string().describe('Name of the app.'),
       usageTime: z.number().describe('Usage time in minutes for the app.'),
+      icon: z.string().describe("Name of the app's icon."),
     })
   ).describe('Array of app usage data.'),
   unlockCount: z.number().describe('Number of times the phone was unlocked.'),
